@@ -36,8 +36,6 @@ public class CheckLaptopBatteryChargeProcedure {
                     }
                 }
                 pr.waitFor();
-                if (server != null)
-                    server.getPlayerList().broadcastMessage(new TextComponent("---------- Done ----------"), ChatType.SYSTEM, Util.NIL_UUID);
                 in.close();
             } catch (Exception e) {
                 if (server != null)
