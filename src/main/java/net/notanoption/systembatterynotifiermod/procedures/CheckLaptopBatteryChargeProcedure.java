@@ -44,14 +44,16 @@ public class CheckLaptopBatteryChargeProcedure {
             }
         };
         executorService.scheduleAtFixedRate(task, 0, 20, TimeUnit.MINUTES);
+        ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastMessage(new TextComponent("§6Server Battery Notifier is now §2activated"), ChatType.SYSTEM, Util.NIL_UUID);
         isActive = true;
         return 1;
     }
 
     public static int stopExecutorService() {
-        isActive = false;
         executorService.shutdownNow();
         executorService = new ScheduledThreadPoolExecutor(1);
+        ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastMessage(new TextComponent("§6Server Battery Notifier is now §4de-activated"), ChatType.SYSTEM, Util.NIL_UUID);
+        isActive = false;
         return 1;
     }
 
