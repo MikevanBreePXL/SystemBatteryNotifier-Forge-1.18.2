@@ -12,7 +12,8 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class CheckLaptopBatteryChargeProcedure {
-    private static final ScheduledThreadPoolExecutor executorService = new ScheduledThreadPoolExecutor(1);
+    private static ScheduledThreadPoolExecutor executorService = new ScheduledThreadPoolExecutor(1);
+    private static boolean isActive = false;
 
     public static int execute() {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
@@ -43,10 +44,24 @@ public class CheckLaptopBatteryChargeProcedure {
             }
         };
         executorService.scheduleAtFixedRate(task, 0, 20, TimeUnit.MINUTES);
+        isActive = true;
         return 1;
     }
 
-    public static void stopExecutorService() {
-        executorService.shutdown();
+    public static int stopExecutorService() {
+        isActive = false;
+        executorService.shutdownNow();
+        executorService = new ScheduledThreadPoolExecutor(1);
+        return 1;
+    }
+
+    public static int checkExecutorService() {
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        if (isActive) {
+            server.getPlayerList().broadcastMessage(new TextComponent("§6The BatteryNotifier system is §2active!"), ChatType.SYSTEM, Util.NIL_UUID);
+        } else {
+            server.getPlayerList().broadcastMessage(new TextComponent("§6The BatteryNotifier system is §4not active."), ChatType.SYSTEM, Util.NIL_UUID);
+        }
+        return 1;
     }
 }
