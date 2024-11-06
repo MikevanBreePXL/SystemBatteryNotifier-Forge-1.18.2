@@ -1,6 +1,6 @@
 # System Battery Notifier
 ### SERVER REQUIRED ONLY
-### WINDOWS ONLY
+### WINDOWS SERVER ONLY
 This is a minimal mod that adds in 3 commands to check the battery percentage of the server, in case this is running on a laptop or similar.
 
 ## Commands:
